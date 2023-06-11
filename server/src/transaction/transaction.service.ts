@@ -42,8 +42,21 @@ export class TransactionService {
 		return transactions;
 	}
 
+	async findAllByType(id: number, type: string) {
+		const transactions = await this.transactionRepository.find({
+			where: {
+				user: { id },
+				type,
+			},
+		});
+
+		const total = transactions.reduce((acc, transaction) => acc + transaction.amount, 0);
+
+		return total;
+	}
+
 	async findOne(id: number) {
-		const transactions = await this.transactionRepository.findOne({
+		const transaction = await this.transactionRepository.findOne({
 			where: {
 				id,
 			},
@@ -53,9 +66,9 @@ export class TransactionService {
 			},
 		});
 
-		if (!transactions) throw new NotFoundException('Transaction not found');
+		if (!transaction) throw new NotFoundException('Transaction not found');
 
-		return transactions;
+		return transaction;
 	}
 
 	async update(id: number, updateTransactionDto: UpdateTransactionDto) {

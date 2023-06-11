@@ -1,3 +1,5 @@
+import { TransactionService } from './../transaction/transaction.service';
+import { Transaction } from 'src/transaction/entities/transaction.entity';
 import { Category } from 'src/category/entities/category.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Module } from '@nestjs/common';
@@ -5,8 +7,8 @@ import { CategoryService } from './category.service';
 import { CategoryController } from './category.controller';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Category])],
+  imports: [TypeOrmModule.forFeature([Category, Transaction])],
   controllers: [CategoryController],
-  providers: [CategoryService]
+  providers: [CategoryService, TransactionService]
 })
 export class CategoryModule {}
