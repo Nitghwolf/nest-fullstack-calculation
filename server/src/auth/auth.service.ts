@@ -6,26 +6,30 @@ import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class AuthService {
-  constructor(
-    private readonly userService: UserService,
-    private readonly jwtService: JwtService,
-  ) {}
+	constructor(
+		private readonly userService: UserService,
+		private readonly jwtService: JwtService,
+	) {}
 
-  async validateUser(email: string, password: string): Promise<any> {
-    const user = await this.userService.findOne(email);
-    const passwordIsMatch = await argon2.verify(user.password, password);
+	async validateUser(email: string, password: string): Promise<any> {
+		try {
+			const user = await this.userService.findOne(email);
+			const passwordIsMatch = await argon2.verify(user.password, password);
 
-    if (user && passwordIsMatch) {
-      return user;
-    }
+			if (user && passwordIsMatch) {
+				return user;
+			}
+		} catch (error) {
+			throw new UnauthorizedException('User or password are incorrect!');
+		}
+	}
 
-    throw new UnauthorizedException('User or password are incorrect!');
-  }
-
-  async login(user: IUser) {
-    const payload = { email: user.email, sub: user.id };
-    return {
-      access_token: this.jwtService.sign(payload),
-    };
-  }
+	async login(user: IUser) {
+		const { id, email } = user;
+		return {
+			id,
+			email,
+			token: this.jwtService.sign({ id: user.id, email: user.email}),
+		};
+	}
 }
