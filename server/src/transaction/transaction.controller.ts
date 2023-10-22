@@ -13,25 +13,25 @@ export class TransactionController {
   @UseGuards(JwtAuthGuard)
   @UsePipes(new ValidationPipe())
   create(@Body() createTransactionDto: CreateTransactionDto, @Req() req) {
-    return this.transactionService.create(createTransactionDto, +req.user.userId);
+    return this.transactionService.create(createTransactionDto, +req.user.id);
   }
 
   @Get(':type/find')
   @UseGuards(JwtAuthGuard)
   findAllByType(@Req() req, @Param('type') type: string){
-    return this.transactionService.findAllByType(+req.user.userId, type);
+    return this.transactionService.findAllByType(+req.user.id, type);
   }
 
   @Get('pagination')
   @UseGuards(JwtAuthGuard)
   findAllWithPagination(@Req() req, @Query('page') page: number, @Query('limit') limit: number,) {
-    return this.transactionService.findAllWithPagination(+req.user.userId, +page, +limit);
+    return this.transactionService.findAllWithPagination(+req.user.id, +page, +limit);
   }
 
   @Get()
   @UseGuards(JwtAuthGuard)
   findAll(@Req() req) {
-    return this.transactionService.findAll(+req.user.userId);
+    return this.transactionService.findAll(+req.user.id);
   }
 
   @Get(':type/:id')

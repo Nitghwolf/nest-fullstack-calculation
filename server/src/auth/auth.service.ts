@@ -15,7 +15,7 @@ export class AuthService {
 		try {
 			const user = await this.userService.findOne(email);
 			const passwordIsMatch = await argon2.verify(user.password, password);
-
+			
 			if (user && passwordIsMatch) {
 				return user;
 			}

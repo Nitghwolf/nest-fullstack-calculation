@@ -34,7 +34,7 @@ export class AuthorGuard implements CanActivate {
 
         const user = request.user;
 
-        if(entity && user && entity.user.user_id === user.id){
+        if(entity && user && entity.user.id === user.id){
             return true;
         }
         throw new BadRequestException('Something wrong');

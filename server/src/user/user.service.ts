@@ -29,6 +29,7 @@ export class UserService {
     const token = this.jwtService.sign({
       email: createUserDto.email,
     });
+    
     return { user, token };
   }
 
