@@ -9,7 +9,6 @@ export const categoriesAction = async ({ request }: any) => {
         title: formData.get("title"),
       };
       await instance.post("/categories", title);
-
       return null;
     }
     case "PATCH": {
@@ -26,7 +25,6 @@ export const categoriesAction = async ({ request }: any) => {
         const formData = await request.formData();
         const categoryId = formData.get("id");
         await instance.delete(`/categories/category/${categoryId}`);
-  
         return null;
     }
   }
