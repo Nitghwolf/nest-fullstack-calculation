@@ -27,5 +27,22 @@ export interface ICategory {
   id: number;
   createdAt: string;
   updatedAt: string;
-  transactions: any[];
+  transactions?: any[];
+}
+
+export interface ITransaction {
+  amount: number;
+  title: string;
+  id: number;
+  type: string;
+  category: ICategory;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface IResponseTransactionLoader {
+  categories: ICategory[];
+  transactions: ITransaction[];
+  totalIncome: number;
+  totalExpense: number;
 }

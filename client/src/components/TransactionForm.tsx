@@ -1,8 +1,13 @@
-import { FC } from "react";
+import { FC, useState } from "react";
 import { FaPlus } from "react-icons/fa";
-import { Form } from "react-router-dom";
+import { Form, useLoaderData } from "react-router-dom";
+import { IResponseTransactionLoader } from "../types/types";
+import CategoryModal from "./CategoryModal";
 
 export const TransactionForm: FC = () => {
+  const {categories} = useLoaderData() as IResponseTransactionLoader;
+  const [visibleModal, setVisibleModal] = useState<boolean>(false);
+
   return (
     <div className="rounded-md bg-slate-800 p-4">
       <Form className="grid gap-2" method="post" action="/transactions">
@@ -29,22 +34,20 @@ export const TransactionForm: FC = () => {
         </label>
 
         {/* {Select} */}
-        <label htmlFor="category" className="grid">
+        {categories.length ? <label htmlFor="category" className="grid">
           <span>Category</span>
           <select
             className="input border-slate-900 bg-slate-700"
             name="category"
             required
           >
-            <option value="1">Salary</option>
-            <option value="2">Gift</option>
-            <option value="3">Food</option>
+            {categories.map((category, index) => <option value={category.id} key={index}>{category.title}</option>)}
           </select>
-        </label>
+        </label> : <h1 className="mt-1 text-red-300">No categories</h1>} 
 
         <button
-          className="mt-2 flex max-w-fit items-center gap-2 text-white/50 hover:text-white"
-          //   onClick={() => setVisibleModal(true)}
+          className="flex max-w-fit items-center gap-2 text-white/50 hover:text-white"
+          onClick={() => setVisibleModal(true)}
         >
           <FaPlus />
           <span>Manage categories</span>
@@ -75,6 +78,10 @@ export const TransactionForm: FC = () => {
         {/* {Submit button} */}
         <button className="btn btn-green max-w-fit mt-2">Submit</button>
       </Form>
+
+      {visibleModal && (
+        <CategoryModal type="post" setVisible={setVisibleModal} />
+      )}
     </div>
   );
 };

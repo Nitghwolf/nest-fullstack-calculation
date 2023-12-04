@@ -39,7 +39,7 @@ const Header: FC = () => {
             </li>
             <li>
               <NavLink
-                to={"/transaction"}
+                to={"/transactions"}
                 className={({ isActive }) =>
                   isActive ? "text-red-500" : "text-white/70"
                 }
